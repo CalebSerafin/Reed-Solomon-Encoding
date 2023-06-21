@@ -6,8 +6,13 @@ name: .NET
 on:
   push:
     branches: [ "master" ]
+    paths: [ "Reed-Solomon Encoding/**/*", "Reed-Solomon Encoding.Tests/**/*" ]
   pull_request:
     branches: [ "master" ]
+    paths: [ "Reed-Solomon Encoding/**/*", "Reed-Solomon Encoding.Tests/**/*" ]
+  workflow_dispatch:
+
+
 
 jobs:
   build:
