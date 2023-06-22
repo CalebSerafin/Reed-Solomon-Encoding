@@ -35,15 +35,15 @@ class MathExpression {
                 individualPolynomialRoots[i] = Expression.Constant(1d, typeof(double));
                 continue;
             }
-            individualPolynomialRoots[i] = Expression.Subtract(xAxisParemter, Expression.Constant(currentPoint, typeof(double)));
+            individualPolynomialRoots[i] = Expression.Subtract(xAxisParemter, Expression.Constant((double)i, typeof(double)));
         }
 
         Expression<Func<double, double>> incompleteLagrangePolynomial = Expression.Lambda<Func<double,double>>(
             MultiplyChildrenExpression(individualPolynomialRoots),
             new ParameterExpression[] { xAxisParemter }
         );
-        // Plug in x = indexOfTarget +1 to find coefficient
-        double inverseCoefficient = incompleteLagrangePolynomial.Compile()(indexOfTarget + 1);
+        // Plug in x = indexOfTarget to find coefficient
+        double inverseCoefficient = incompleteLagrangePolynomial.Compile()(indexOfTarget);
         double coefficient = 1 / inverseCoefficient;
 
         // Insert coefficient into polynomial

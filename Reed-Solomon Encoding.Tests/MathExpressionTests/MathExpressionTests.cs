@@ -29,9 +29,11 @@ public class MathExpressionTests {
         // Arrange
         Expression[] children = new Expression[childrenAmount];
         double expected = 1;
-        for (int i = 1; i <= childrenAmount; i++) {
-            expected *= i;
-            children[i -1] = Expression.Constant((double)i, typeof(double));
+        Random random = new(0);
+        for (int i = 0; i < childrenAmount; i++) {
+            double data = random.Next(10);
+            expected *= data;
+            children[i] = Expression.Constant((double)data, typeof(double));
         }
 
         Expression result = MathExpression.MathExpression.MultiplyChildrenExpression(children);
@@ -53,8 +55,9 @@ public class MathExpressionTests {
     public void CreateLagrangePolynomialExpressionWorks(int dataPointAmount) {
         // Arrange
         double[] dataPoints = new double[dataPointAmount];
+        Random random = new(0);
         for (int i = 0; i < dataPointAmount; i++) {
-            dataPoints[i] = i + 1;
+            dataPoints[i] = random.Next(10);
         }
         for (int indexOfTarget = 0; indexOfTarget < dataPoints.Length; indexOfTarget++) {
             output.WriteLine($"Constructing polynomial for data-point at {indexOfTarget} with value {dataPoints[indexOfTarget]}");
@@ -62,8 +65,8 @@ public class MathExpressionTests {
             Func<double, double> equation = MathExpression.MathExpression.CreateLagrangePolynomialExpression(dataPoints, indexOfTarget).Compile();
 
             // Assert
-            for (int xAxis = 1; xAxis <= dataPoints.Length; xAxis++) {
-                double expected = xAxis == (indexOfTarget + 1) ? 1 : 0;
+            for (int xAxis = 0; xAxis < dataPoints.Length; xAxis++) {
+                double expected = xAxis == indexOfTarget ? 1 : 0;
                 output.WriteLine($"Validating constructed polynomial with xAxis {xAxis} expecting with value {expected}");
                 double actual = equation((double)xAxis);
                 Assert.Equal(expected, actual);
@@ -91,14 +94,15 @@ public class MathExpressionTests {
     public void CreateLagrangeEquationExpressionWorks(int dataPointAmount) {
         // Arrange
         double[] dataPoints = new double[dataPointAmount];
+        Random random = new(0);
         for (int i = 0; i < dataPointAmount; i++) {
-            dataPoints[i] = i + 1;
+            dataPoints[i] = random.Next(10);
         }
         // Act
         Func<double, double> equation = MathExpression.MathExpression.CreateLagrangeEquationExpression(dataPoints).Compile();
         // Assert
-        for (int xAxis = 1; xAxis <= dataPoints.Length; xAxis++) {
-            double expected = dataPoints[xAxis - 1];
+        for (int xAxis = 0; xAxis < dataPoints.Length; xAxis++) {
+            double expected = dataPoints[xAxis];
             output.WriteLine($"Validating constructed polynomial with xAxis {xAxis} expecting with value {expected}");
             double actual = equation((double)xAxis);
             actual = double.Round(actual, 10);

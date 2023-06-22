@@ -7,10 +7,6 @@
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
     </PropertyGroup>
-
-    <ItemGroup>
-        <Folder Include="UI\" />
-    </ItemGroup>
     <ItemGroup>
         <!-- Show internals to testing assembly -->
         <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleTo">
